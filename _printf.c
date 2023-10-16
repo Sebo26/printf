@@ -27,21 +27,21 @@ for (i = 0; format[i] != '\0'; i++)
 		i++;
 		if (format[i] == 'c')
 		{
-			*str = va_arg(ap, char);
-			write(1, &str);
+			*str = va_arg(ap, int);
+			write(1, &str, 1);
 		}
 		else if (format[i] == 's')
 		{
-			*str = va_arg(ap, char);
-			write(1, &str);
-		}
-		if (str == NULL)
-		{
-			str = "(null)";
+			*str = va_arg(ap, int);
+			write(1, &str, strlen(str));
 		}
 		return (strlen(str));
 	}
 }
+if (str == NULL)
+{
+	str = "(null)";
+}
 va_end(ap);
-return (0);
+return (strlen(str));
 }
