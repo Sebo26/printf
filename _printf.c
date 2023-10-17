@@ -30,7 +30,11 @@ while (*format)
 	}
 	else
 	{
-		counter++;
+		format++;
+		if (*format == '\0')
+		{
+			break;
+		}
 	if (*format == '%')
 	{
 		write(1, format, 1);
@@ -48,10 +52,6 @@ while (*format)
 		length = strlen(s);
 		write(1, s, length);
 		counter += length;
-	}
-	else if (*format == '\0')
-	{
-		break;
 	}
 	}
 	format++;
