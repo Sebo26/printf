@@ -5,18 +5,18 @@
 
 /**
  * _printf - The function produces output according to a format.
- * @format: 
+ * @format: format of text printed.
  * Return: Number of characters printed.
  */
 int _printf(const char *format, ...)
 {
 int i;
 va_list ap;
-char *str;
+char *s;
 
 if (format == NULL)
 {
-	return -1;
+	return (-1);
 }
 
 va_start(ap, format);
@@ -27,21 +27,35 @@ for (i = 0; format[i] != '\0'; i++)
 		i++;
 		if (format[i] == 'c')
 		{
-			*str = va_arg(ap, int);
-			write(1, &str, 1);
+			char c = va_arg(ap, int);
+			write(1, &c, 1);
+
 		}
 		else if (format[i] == 's')
 		{
-			*str = va_arg(ap, int);
-			write(1, &str, strlen(str));
+			s = va_arg(ap, char*);
+			if (s == NULL)
+			{
+				s = "(null)";
+			}
+			write(1, s, strlen(s));
 		}
-		return (strlen(str));
+	}
+	else
+	{
+		write(1, &format[i], 1);
 	}
 }
-if (str == NULL)
-{
-	str = "(null)";
-}
+
 va_end(ap);
-return (strlen(str));
+return (i);
+}
+
+int main(void)
+{
+	_printf("Nice\n");
+	_printf("%c\n", 'K');
+	_printf("%%\n");
+	_printf("%s\n", "Hello");
+	return (0);
 }
