@@ -10,16 +10,13 @@
  */
 int _printf(const char *format, ...)
 {
-int counter = 0;
-int length;
+int counter = 0, length;
 va_list ap;
 char *s;
-
 if (format == NULL)
 {
 	return (-1);
 }
-
 va_start(ap, format);
 while (*format)
 {
@@ -32,9 +29,7 @@ while (*format)
 	{
 		format++;
 		if (*format == '\0')
-		{
 			break;
-		}
 	if (*format == '%')
 	{
 		write(1, format, 1);
@@ -56,16 +51,6 @@ while (*format)
 	}
 	format++;
 }
-
 va_end(ap);
 return (counter);
-}
-
-int main(void)
-{
-	_printf("Nice\n");
-	_printf("%c\n", 'K');
-	_printf("%%\n");
-	_printf("%s\n", "Hello");
-	return (0);
 }
