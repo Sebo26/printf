@@ -12,7 +12,7 @@ int _printfnum(const char *format, ...)
 {
 va_list ap;
 int length = 0;
-int num_length;
+int num;
 if (format == NULL)
 {
 	return (-1);
@@ -30,21 +30,35 @@ while (*format)
 		format++;
 		if (*format == 'd' || *format == 'i')
 		{
-			int d = va_arg(ap, int);
-			char numstr[20];
-
-			num_length = sprintf(numstr, "%d", d);
-			write(1, numstr, num_length);
-			length += num_length;
-		}
-		else if (*format == 'i')
-		{
-			int i = va_arg(ap, int);
-			char numstr[20];
-
-			num_length = sprintf(numstr, "%i", i);
-			write(1, numstr, num_length);
-			length += num_length;
+			num = va_arg(ap, int);
+			if (num < 0)
+			{
+				putchar('-');
+				length++;
+				num = -num;
+			}
+			if (num == 0)
+			{
+				putchar('0');
+				length++;
+			}
+			else
+			{
+				int reversed = 0;
+				while (num > 0)
+				{
+					int digit = num % 10;
+					reversed = reversed * 10 + digit;
+					num /= 10;
+				}
+				while (reversed > 0)
+				{
+					int digit = reversed % 10;
+					putchar('0' + digit);
+					length++;
+					reversed /= 10;
+				}
+			}
 		}
 	}
 	format++;
