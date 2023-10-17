@@ -10,7 +10,8 @@
  */
 int _printf(const char *format, ...)
 {
-int i;
+int counter = 0;
+int length;
 va_list ap;
 char *s;
 
@@ -20,35 +21,44 @@ if (format == NULL)
 }
 
 va_start(ap, format);
-for (i = 0; format[i] != '\0'; i++)
+while (*format)
 {
-	if (format[i] == '%')
+	if (*format != '%')
 	{
-		i++;
-		if (format[i] == 'c')
-		{
-			char c = va_arg(ap, int);
-			write(1, &c, 1);
-
-		}
-		else if (format[i] == 's')
-		{
-			s = va_arg(ap, char*);
-			if (s == NULL)
-			{
-				s = "(null)";
-			}
-			write(1, s, strlen(s));
-		}
+		write(1, format, 1);
+		counter++;
 	}
 	else
 	{
-		write(1, &format[i], 1);
+		counter++;
+	if (*format == '%')
+	{
+		write(1, format, 1);
+		counter++;
 	}
+	else if (*format == 'c')
+	{
+		char c = va_arg(ap, int);
+		write(1, &c, 1);
+		counter++;
+	}
+	else if (*format == 's')
+	{
+		s = va_arg(ap, char*);
+		length = strlen(s);
+		write(1, s, length);
+		counter += length;
+	}
+	else if (*format == '\0')
+	{
+		break;
+	}
+	}
+	format++;
 }
 
 va_end(ap);
-return (i);
+return (counter);
 }
 
 int main(void)
